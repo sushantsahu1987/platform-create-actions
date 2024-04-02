@@ -10,4 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Say Hello
-        run: echo "Hello, world! ${{ inputs.c8-report-token }}"
+        run: |
+          echo "Hello, world! ${{ inputs.c8-report-token }}"
+          echo "Hello, world! ${{ github.event.inputs.c8-report-token }}"
