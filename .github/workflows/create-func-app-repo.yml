@@ -1,6 +1,9 @@
 name: Create function app repo
 on:
   workflow_dispatch:
+    inputs:
+      c8ReportToken:
+        description: "C8 Report Token"
 
 jobs:
   build:
