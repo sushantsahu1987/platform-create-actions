@@ -5,7 +5,7 @@ on:
       c8-report-token:
         description: "C8 Report Token"
       repoName:
-        description: "Name of the function app repo to create"
+        description: "Name of the infrastructure terraform function app repo to create"
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
           echo "repo name: ${{ inputs.repoName }}"
           REPO_NAME="${{ inputs.repoName }}"
           TEMPLATE_OWNER="sushantsahu1987"
-          TEMPLATE_REPO="template-node-function-app"
+          TEMPLATE_REPO="template-iac-node-function-app"
           ACCESS_TOKEN="${{ secrets.ACCESS_TOKEN }}"
 
           curl -X POST \
