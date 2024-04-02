@@ -14,7 +14,7 @@ jobs:
       - name: Create Repo
         run: |
           echo "repo name: ${{ inputs.repoName }}"
-          REPO_NAME=${{ inputs.repoName }}"
+          REPO_NAME="${{ inputs.repoName }}"
           TEMPLATE_OWNER="sushantsahu1987"
           TEMPLATE_REPO="template-iac-node-function-app"
           ACCESS_TOKEN="${{ secrets.ACCESS_TOKEN }}"
