@@ -15,7 +15,7 @@ jobs:
           echo "run_started_at: $(date -Iseconds)"
           STARTED_AT=$(date -Iseconds)
           curl -X POST \
-          -H "c8-report-token: token ${{ inputs.c8-report-token }}" \
+          -H "c8-report-token: ${{ inputs.c8-report-token }}" \
           -H "Content-Type: application/json" \
           https://app.configure8.io/self-service/api/v1/reports/webhook \
           -d '{
