@@ -12,7 +12,7 @@ jobs:
       - name: Report status to C8
         run: |
           echo "report token: ${{ inputs.c8-report-token }}"
-          echo "run_started_at: ${{ github.run_started_at}}"
+          echo "run_started_at: $(date)"
         #   curl -X POST \
         #   -H "c8-report-token: token ${{ inputs.c8-report-token }}" \
         #   -H "Content-Type: application/json" \
