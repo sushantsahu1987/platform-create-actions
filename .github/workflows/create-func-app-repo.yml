@@ -4,15 +4,16 @@ on:
     inputs:
       c8-report-token:
         description: "C8 Report Token"
+      repoName:
+        description: "Name of the repo to create"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Report status to C8
-        #   echo "run_started_at: $(date -Iseconds)"
+      - name: Report status back to C8
         run: |
-          echo "report token: ${{ inputs.c8-report-token }}"
+          echo "repo name: ${{ inputs.repoName }}"
           STARTED_AT=$(date -Iseconds)
           curl -X POST \
           -H "c8-report-token: ${{ inputs.c8-report-token }}" \
