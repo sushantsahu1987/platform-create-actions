@@ -11,9 +11,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Report status back to C8
+      - name: Create Repo
         run: |
           echo "repo name: ${{ inputs.repoName }}"
+          REPO_NAME=${{ inputs.repoName }}"
+          TEMPLATE_OWNER="sushantsahu1987"
+          TEMPLATE_REPO="template-iac-node-function-app"
+          ACCESS_TOKEN="${{ secrets.ACCESS_TOKEN }}"
+
+          curl -X POST \
+            -H "Authorization: token $ACCESS_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$TEMPLATE_OWNER/$TEMPLATE_REPO/generate \
+            -d "{\"name\":\"$REPO_NAME\",\"owner\":\"$TEMPLATE_OWNER\",\"private\":false}"
+      - name: Report status back to C8
+        run: |
           STARTED_AT=$(date -Iseconds)
           curl -X POST \
           -H "c8-report-token: ${{ inputs.c8-report-token }}" \
