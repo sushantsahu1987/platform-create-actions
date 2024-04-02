@@ -13,11 +13,12 @@ jobs:
         run: |
           echo "report token: ${{ inputs.c8-report-token }}"
           echo "run_started_at: $(date -Iseconds)"
-        #   curl -X POST \
-        #   -H "c8-report-token: token ${{ inputs.c8-report-token }}" \
-        #   -H "Content-Type: application/json" \
-        #   https://app.configure8.io/self-service/api/v1/reports/webhook \
-        #   -d '{
-        #     "status": "complete",
-        #     "startedAt": ${{ github.run_started_at}}
-        #   }'
+          STARTED_AT=$(date -Iseconds)
+          curl -X POST \
+          -H "c8-report-token: token ${{ inputs.c8-report-token }}" \
+          -H "Content-Type: application/json" \
+          https://app.configure8.io/self-service/api/v1/reports/webhook \
+          -d '{
+            "status": "complete",
+            "startedAt": "$STARTED_AT"
+          }'
