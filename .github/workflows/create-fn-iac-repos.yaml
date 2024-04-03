@@ -1,15 +1,15 @@
-name: Create function app repo
+name: Create function to generate app & iac repo
 on:
   workflow_dispatch:
-    inputs:
-      # c8-report-token:
-      #   description: "C8 Report Token"
-      # repoFnAppName:
-      #   description: "Name of the function app repo to create"
-      # repoIACName:
-      #   description: "Name of the infrastructure terraform function app repo to create"
+    # inputs:
+    # c8-report-token:
+    #   description: "C8 Report Token"
+    # repoFnAppName:
+    #   description: "Name of the function app repo to create"
+    # repoIACName:
+    #   description: "Name of the infrastructure terraform function app repo to create"
 
-      # REPO_NAME="${{ inputs.repoFnAppName }}"
+    # REPO_NAME="${{ inputs.repoFnAppName }}"
 jobs:
   build:
     runs-on: ubuntu-latest
