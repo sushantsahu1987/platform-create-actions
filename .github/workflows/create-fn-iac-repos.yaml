@@ -31,8 +31,8 @@ jobs:
           TEMPLATE_REPO="template-iac-node-function-app"
 
           gh repo create --public $REPO_NAME --template $TEMPLATE_OWNER/$TEMPLATE_REPO
-          env:
-            GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       # - name: Report status back to C8
       #   run: |
