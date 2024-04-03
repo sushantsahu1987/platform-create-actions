@@ -1,0 +1,47 @@
+name: Create function app repo
+on:
+  workflow_dispatch:
+    inputs:
+      # c8-report-token:
+      #   description: "C8 Report Token"
+      # repoFnAppName:
+      #   description: "Name of the function app repo to create"
+      # repoIACName:
+      #   description: "Name of the infrastructure terraform function app repo to create"
+
+      # REPO_NAME="${{ inputs.repoFnAppName }}"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Fn App Repo
+        run: |
+          REPO_NAME="acme-fn-app-1"
+          TEMPLATE_OWNER="sushantsahu1987"
+          TEMPLATE_REPO="template-node-function-app"
+          gh repo create $REPO_NAME --template $TEMPLATE_OWNER/$TEMPLATE_REPO
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      # - name: Create IAC Repo
+      #   run: |
+      #     echo "repo name: ${{ inputs.repoIACName }}"
+      #     REPO_NAME="${{ inputs.repoName }}"
+      #     TEMPLATE_OWNER="sushantsahu1987"
+      #     TEMPLATE_REPO="template-iac-node-function-app"
+      #     ACCESS_TOKEN="${{ secrets.ACCESS_TOKEN }}"
+
+      #     curl -X POST \
+      #       -H "Authorization: token $ACCESS_TOKEN" \
+      #       -H "Accept: application/vnd.github.v3+json" \
+      #       https://api.github.com/repos/$TEMPLATE_OWNER/$TEMPLATE_REPO/generate \
+      #       -d "{\"name\":\"$REPO_NAME\",\"owner\":\"$TEMPLATE_OWNER\",\"private\":false}"
+
+      # - name: Report status back to C8
+      #   run: |
+      #     STARTED_AT=$(date -Iseconds)
+      #     curl -X POST \
+      #     -H "c8-report-token: ${{ inputs.c8-report-token }}" \
+      #     -H "Content-Type: application/json" \
+      #     https://app.configure8.io/self-service/api/v1/reports/webhook \
+      #     -d "{ \"status\": \"complete\",  \"startedAt\": \"$STARTED_AT\"}" \
