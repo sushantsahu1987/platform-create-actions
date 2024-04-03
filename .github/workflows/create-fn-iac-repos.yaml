@@ -19,7 +19,7 @@ jobs:
           REPO_NAME="acme-fn-app-1"
           TEMPLATE_OWNER="sushantsahu1987"
           TEMPLATE_REPO="template-node-function-app"
-          gh repo create $REPO_NAME --template $TEMPLATE_OWNER/$TEMPLATE_REPO
+          gh repo create --public $REPO_NAME --template $TEMPLATE_OWNER/$TEMPLATE_REPO
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
