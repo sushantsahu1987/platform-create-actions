@@ -44,29 +44,29 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
-    #   - name: Checkout function app repository
-    #     uses: actions/checkout@v2
-    #     with:
-    #       repository: ${{env.TEMPLATE_OWNER}}/${{ inputs.fn-app-repo-name }}
-    #       token: ${{ secrets.ACCESS_TOKEN }}
-    #       path: ${{ inputs.fn-app-repo-name }}
+      - name: Checkout function app repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{env.TEMPLATE_OWNER}}/${{ inputs.fn-app-repo-name }}
+          token: ${{ secrets.ACCESS_TOKEN }}
+          path: ${{ inputs.fn-app-repo-name }}
 
-    #   - name: Checkout terraform function app repository
-    #     uses: actions/checkout@v2
-    #     with:
-    #       repository: ${{env.TEMPLATE_OWNER}}/${{ inputs.tf-repo-name }}
-    #       token: ${{ secrets.ACCESS_TOKEN }}
-    #       path: ${{ inputs.tf-repo-name }}
+      - name: Checkout terraform function app repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{env.TEMPLATE_OWNER}}/${{ inputs.tf-repo-name }}
+          token: ${{ secrets.ACCESS_TOKEN }}
+          path: ${{ inputs.tf-repo-name }}
 
-    #   - name: Setup Terraform
-    #     uses: hashicorp/setup-terraform@v1
-    #     with:
-    #       cli_config_credentials_token: ${{ secrets.JUMPCLOUD_API_TOKEN }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.JUMPCLOUD_API_TOKEN }}
 
-    #   - name: Run terraform init & apply
-    #     run: |
-    #       cd ${{ inputs.tf-repo-name }}
-    #       terraform init
+      - name: Run terraform init & apply
+        run: |
+          cd ${{ inputs.tf-repo-name }}
+          terraform init
     #       terraform apply -auto-approve
 
     #   - name: Setup Node ${{ env.NODE_VERSION }} Environment
