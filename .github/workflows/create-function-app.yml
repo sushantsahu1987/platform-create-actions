@@ -69,42 +69,42 @@ jobs:
           terraform init
           terraform apply -auto-approve
 
-    #   - name: Setup Node ${{ env.NODE_VERSION }} Environment
-    #     uses: actions/setup-node@v3
-    #     with:
-    #       node-version: ${{ env.NODE_VERSION }}
+      - name: Setup Node ${{ env.NODE_VERSION }} Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-    #   - name: "Resolve Project Dependencies Using Npm"
-    #     shell: bash
-    #     run: |
-    #       cd ${{ inputs.fn-app-repo-name }}
-    #       pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-    #       npm install
-    #       npm run build --if-present
-    #       npm run test --if-present
-    #       popd
+      - name: "Resolve Project Dependencies Using Npm"
+        shell: bash
+        run: |
+          cd ${{ inputs.fn-app-repo-name }}
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+          popd
 
-    #   - name: Azure login
-    #     uses: azure/login@v2
-    #     with:
-    #       creds: ${{ secrets.AZURE_CREDENTIALS}}
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS}}
 
-    #   - name: Get Function App Publish Profile
-    #     uses: azure/CLI@v1
-    #     id: get-publish-profile
-    #     with:
-    #       azcliversion: latest
-    #       inlineScript: |
-    #         profile=$(az functionapp deployment list-publishing-profiles --name acme-test-function-app --resource-group acme-test-resource-group --xml)
-    #         echo "::set-output name=profile::$profile"
+      - name: Get Function App Publish Profile
+        uses: azure/CLI@v1
+        id: get-publish-profile
+        with:
+          azcliversion: latest
+          inlineScript: |
+            profile=$(az functionapp deployment list-publishing-profiles --name acme-test-function-app --resource-group acme-test-resource-group --xml)
+            echo "::set-output name=profile::$profile"
 
-    #   - name: "Run Azure Functions Action"
-    #     uses: Azure/functions-action@v1
-    #     id: fa
-    #     with:
-    #       app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-    #       package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-    #       publish-profile: ${{ steps.get-publish-profile.outputs.profile }}
+      - name: "Run Azure Functions Action"
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: ${{ inputs.fn-app-repo-name }}/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ steps.get-publish-profile.outputs.profile }}
 
     #   - name: Report status back to C8
     #     run: |
