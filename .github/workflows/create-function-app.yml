@@ -67,7 +67,7 @@ jobs:
         run: |
           cd ${{ inputs.tf-repo-name }}
           terraform init
-    #       terraform apply -auto-approve
+          terraform apply -auto-approve
 
     #   - name: Setup Node ${{ env.NODE_VERSION }} Environment
     #     uses: actions/setup-node@v3
