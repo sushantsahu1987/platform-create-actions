@@ -1,0 +1,116 @@
+name: Create function app
+env:
+  TEMPLATE_OWNER: sushantsahu1987
+  TEMPLATE_FN_REPO: acme-function-app
+  TEMPLATE_TF_REPO: acme-tf-function-app
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
+  AZURE_FUNCTIONAPP_NAME: "acme-test-function-app"
+  NODE_VERSION: "20.x"
+on:
+  workflow_dispatch:
+    inputs:
+      fn-app-repo-name:
+        description: "Name of the function app repo to create"
+      tf-repo-name:
+        description: "Name of the terraform function app repo to create"
+      #   c8-report-token:
+      #     description: "C8 Report Token"
+    #   jump-token:
+    #     description: "Jump token to login to Terraform"
+    #   az-credentials:
+    #     description: "Azure credentials to login to Azure"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Fn App Repo
+        run: |
+          REPO_NAME="${{ inputs.fn-app-repo-name }}"
+          # AZ_CREDS="${{ inputs.az-credentials }}"
+
+          gh repo create --public $REPO_NAME --template ${{ env.TEMPLATE_OWNER }}/${{env.TEMPLATE_FN_REPO}}
+        #   gh secret set AZ_CREDENTIALS -b $AZ_CREDS --repo=${{env.TEMPLATE_OWNER}}/$REPO_NAME
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Create IAC Repo
+        run: |
+          REPO_NAME="${{ inputs.tf-repo-name }}"
+          # JUMP_TOKEN = "${{ inputs.jump-token}}"
+
+          gh repo create --public $REPO_NAME --template ${{env.TEMPLATE_OWNER}}/${{ env.TEMPLATE_TF_REPO }}
+        #   gh secret set JUMP_TOKEN -b $JUMP_TOKEN --repo=${{env.TEMPLATE_OWNER}}/$REPO_NAME
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+    #   - name: Checkout function app repository
+    #     uses: actions/checkout@v2
+    #     with:
+    #       repository: ${{env.TEMPLATE_OWNER}}/${{ inputs.fn-app-repo-name }}
+    #       token: ${{ secrets.ACCESS_TOKEN }}
+    #       path: ${{ inputs.fn-app-repo-name }}
+
+    #   - name: Checkout terraform function app repository
+    #     uses: actions/checkout@v2
+    #     with:
+    #       repository: ${{env.TEMPLATE_OWNER}}/${{ inputs.tf-repo-name }}
+    #       token: ${{ secrets.ACCESS_TOKEN }}
+    #       path: ${{ inputs.tf-repo-name }}
+
+    #   - name: Setup Terraform
+    #     uses: hashicorp/setup-terraform@v1
+    #     with:
+    #       cli_config_credentials_token: ${{ secrets.JUMPCLOUD_API_TOKEN }}
+
+    #   - name: Run terraform init & apply
+    #     run: |
+    #       cd ${{ inputs.tf-repo-name }}
+    #       terraform init
+    #       terraform apply -auto-approve
+
+    #   - name: Setup Node ${{ env.NODE_VERSION }} Environment
+    #     uses: actions/setup-node@v3
+    #     with:
+    #       node-version: ${{ env.NODE_VERSION }}
+
+    #   - name: "Resolve Project Dependencies Using Npm"
+    #     shell: bash
+    #     run: |
+    #       cd ${{ inputs.fn-app-repo-name }}
+    #       pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+    #       npm install
+    #       npm run build --if-present
+    #       npm run test --if-present
+    #       popd
+
+    #   - name: Azure login
+    #     uses: azure/login@v2
+    #     with:
+    #       creds: ${{ secrets.AZURE_CREDENTIALS}}
+
+    #   - name: Get Function App Publish Profile
+    #     uses: azure/CLI@v1
+    #     id: get-publish-profile
+    #     with:
+    #       azcliversion: latest
+    #       inlineScript: |
+    #         profile=$(az functionapp deployment list-publishing-profiles --name acme-test-function-app --resource-group acme-test-resource-group --xml)
+    #         echo "::set-output name=profile::$profile"
+
+    #   - name: "Run Azure Functions Action"
+    #     uses: Azure/functions-action@v1
+    #     id: fa
+    #     with:
+    #       app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+    #       package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+    #       publish-profile: ${{ steps.get-publish-profile.outputs.profile }}
+
+    #   - name: Report status back to C8
+    #     run: |
+    #       STARTED_AT=$(date -Iseconds)
+    #       curl -X POST \
+    #       -H "c8-report-token: ${{ inputs.c8-report-token }}" \
+    #       -H "Content-Type: application/json" \
+    #       https://app.configure8.io/self-service/api/v1/reports/webhook \
+    #       -d "{ \"status\": \"complete\",  \"startedAt\": \"$STARTED_AT\"}" \
