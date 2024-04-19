@@ -106,11 +106,11 @@ jobs:
           package: ${{ inputs.fn-app-repo-name }}/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ steps.get-publish-profile.outputs.profile }}
 
-    #   - name: Report status back to C8
-    #     run: |
-    #       STARTED_AT=$(date -Iseconds)
-    #       curl -X POST \
-    #       -H "c8-report-token: ${{ inputs.c8-report-token }}" \
-    #       -H "Content-Type: application/json" \
-    #       https://app.configure8.io/self-service/api/v1/reports/webhook \
-    #       -d "{ \"status\": \"complete\",  \"startedAt\": \"$STARTED_AT\"}" \
+      - name: Report status back to C8
+        run: |
+          STARTED_AT=$(date -Iseconds)
+          curl -X POST \
+          -H "c8-report-token: ${{ inputs.c8-report-token }}" \
+          -H "Content-Type: application/json" \
+          https://app.configure8.io/self-service/api/v1/reports/webhook \
+          -d "{ \"status\": \"complete\",  \"startedAt\": \"$STARTED_AT\"}" \
